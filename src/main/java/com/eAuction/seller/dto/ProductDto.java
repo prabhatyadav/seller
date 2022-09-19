@@ -1,5 +1,6 @@
 package com.eAuction.seller.dto;
 
+import com.eAuction.seller.model.PersonTypeEnum;
 import com.eAuction.seller.model.ProductCategory;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,8 @@ public class ProductDto {
     private ProductCategory category;
     private double startingPrice;
     private LocalDateTime bidEndDate;
+    private String personName;
+    private String personEmailId;
+    private String PhoneNumber;
+    private PersonTypeEnum personType;
 }
