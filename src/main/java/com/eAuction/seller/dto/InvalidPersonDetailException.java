@@ -2,10 +2,11 @@ package com.eAuction.seller.dto;
 
 
 public class InvalidPersonDetailException extends Exception {
-    public InvalidPersonDetailException(){
+    public InvalidPersonDetailException() {
         super();
     }
-    public InvalidPersonDetailException(String message){
-         super(message);
+
+    public InvalidPersonDetailException(String message) {
+        super(message);
     }
 }

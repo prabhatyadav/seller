@@ -41,7 +41,7 @@ public class ProductService {
                         //Stage 2: Create the Category
                     }
                     // convert  the Dto to Model
-                    Product newProduct = modelMapper.map(productDto,Product.class);
+                    Product newProduct = modelMapper.map(productDto, Product.class);
                     savedProduct = productRepository.save(newProduct);
                 } else {
                     //Stage 2: create the seller account for the person. personService.Save()

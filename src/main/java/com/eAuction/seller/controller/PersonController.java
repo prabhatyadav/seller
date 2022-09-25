@@ -17,20 +17,15 @@ public class PersonController {
                              @RequestParam("email") String email,
                              @RequestParam("phoneNumber") String phoneNumber) {
 
-          Person servicePerson =  personService.findPerson(email,phoneNumber,personTypeEnum);
-          return servicePerson;
-        }
-
-
-
-    @RequestMapping(method = RequestMethod.POST, value = "/seller")
-    public Person createSeller(@RequestBody Person person) {
-        return personService.Save(person);
-
+        Person servicePerson = personService.findPerson(email, phoneNumber, personTypeEnum);
+        return servicePerson;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/buyer")
-    public Person createBuyer(@RequestBody Person person) {
-        return personService.Save(person);
+
+    @RequestMapping(method = RequestMethod.POST, value = "/createNewUser")
+    public Person createNewUser(@RequestBody Person person) {
+        return personService.createNewUser(person);
     }
+
+
 }

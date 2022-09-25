@@ -37,4 +37,7 @@ public class Product {
     @Column(name="seller")
     private Person seller;
 
+    @Column(name="isDeleted")
+    private  Boolean isDeleted;
+
 }

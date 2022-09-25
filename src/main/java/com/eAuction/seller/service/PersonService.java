@@ -14,11 +14,12 @@ public class PersonService {
     public Person findPersonByEmailId(String email) {
         return personRepository.findByEmailId(email);
     }
-    public Person findPerson(String email, String phoneNumber , PersonTypeEnum personType) {
-        return personRepository.findByEmailIdAndPhoneNumberAndPersonType(email,phoneNumber,personType);
+
+    public Person findPerson(String email, String phoneNumber, PersonTypeEnum personType) {
+        return personRepository.findByEmailIdAndPhoneNumberAndPersonType(email, phoneNumber, personType);
     }
 
-    public Person Save(Person person) {
+    public Person createNewUser(Person person) {
         return personRepository.save(person);
     }
 }

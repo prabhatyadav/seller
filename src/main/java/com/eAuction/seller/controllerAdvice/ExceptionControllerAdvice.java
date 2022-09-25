@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value = InvalidProductDetailException.class)
-    public ResponseEntity<Object> invalidProductDetailHandler(InvalidProductDetailException exception){
+    public ResponseEntity<Object> invalidProductDetailHandler(InvalidProductDetailException exception) {
         return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
     }
 }
