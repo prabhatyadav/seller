@@ -25,7 +25,7 @@ public class ProductService {
 
     public Product addProduct(ProductDto productDto) throws Exception {
         Product savedProduct = new Product();
-        if (productDto != null && validate(productDto)) {
+        if (validate(productDto)) {
             //Product is already there or not ? A Seller can not put same product for multiple time.
 
             //Person who is trying to add the Product is present seller or not.
