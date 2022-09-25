@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Person")
+@Table(name = "person")
 @Data
 @NoArgsConstructor
 public class Person {
     @Id
-    private String personId;
+    private Long personId;
     @Column(name = "fName")
     private String firstName;
     @Column(name = "lName")

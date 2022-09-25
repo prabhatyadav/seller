@@ -3,7 +3,7 @@ package com.eAuction.seller.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ProductCategory")
+@Table(name = "product_category")
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
