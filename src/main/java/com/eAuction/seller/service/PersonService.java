@@ -1,10 +1,13 @@
 package com.eAuction.seller.service;
 
+import com.eAuction.seller.dto.InvalidPersonDetailException;
 import com.eAuction.seller.model.Person;
 import com.eAuction.seller.model.PersonTypeEnum;
 import com.eAuction.seller.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 @Service
 public class PersonService {
@@ -19,7 +22,11 @@ public class PersonService {
         return personRepository.findByEmailAndPhoneAndPersonType(email, phoneNumber, personType);
     }
 
-    public Person createNewUser(Person person) {
-        return personRepository.save(person);
+    public Person createNewUser(Person person) throws InvalidPersonDetailException {
+        try {
+            return personRepository.save(person);
+        } catch (Exception exception) {
+            throw  new InvalidPersonDetailException(exception.getMessage());
+        }
     }
 }

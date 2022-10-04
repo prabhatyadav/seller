@@ -1,5 +1,6 @@
 package com.eAuction.seller.controller;
 
+import com.eAuction.seller.dto.InvalidPersonDetailException;
 import com.eAuction.seller.model.Person;
 import com.eAuction.seller.model.PersonTypeEnum;
 import com.eAuction.seller.service.PersonService;
@@ -23,7 +24,7 @@ public class PersonController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/createNewUser")
-    public Person createNewUser(@RequestBody Person person) {
+    public Person createNewUser(@RequestBody Person person) throws  InvalidPersonDetailException {
         return personService.createNewUser(person);
     }
 
