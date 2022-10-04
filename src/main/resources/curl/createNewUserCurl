@@ -1,0 +1,17 @@
+curl -X 'POST' \
+  'http://localhost:9092/e-auction/api/v1/seller/createNewUser' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+
+  "firstName": "prabhat",
+  "lastName": "Yadav",
+  "address": "X-Block , house no X-60, Street no-13",
+  "city": "Delhi",
+  "state": "Delhi",
+  "pin": "110053",
+  "phone": "8285427147",
+  "email": "Prabhatyadav03@gmail.com",
+  "personType": "SELLER"
+}'
+

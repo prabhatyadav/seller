@@ -1,3 +1,20 @@
 1. ContextPath Must Start with '/' and not end with '/'
  Solution : remove the "" from this
 2. Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+ Solution : add tje  java-connector-mysql dependency
+3.  taking the user name default login user not the user defined in the application.properties
+ solution : need to update the property in the application.properties file from spring.datasource.user --> spring.datasource.username.
+4. org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save()
+ Solution : Either pass the ID as input or add the @GaneratedValue annotation with @ID
+5. o.hibernate.id.enhanced.TableGenerator   : HHH000351: Could not read or init a hi value
+   java.sql.SQLSyntaxErrorException: Table 'e_action.hibernate_sequences' doesn't
+   Solution : spring.jpa.properties.hibernate.id.new_generator_mapping=false  and in database  make the primary key as
+              autoincrement and use @GeneratedValue(strategy= GenerationType.IDENTITY)
+
+ 6.  @column(fName) is defined but  hiberrnate is generrating colum with the name of f_name
+    Solution : 1. spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy [Not Worked]
+               2. changed the name to underscore[worked]
+ 7. how to create the unique value by combining multiple column .
+     Solution :            you have to use the
+                @table(name="table_name" , uniqueConstraints = @UniqueConstraint(columnNames={"email","phone","person_type"}))
+

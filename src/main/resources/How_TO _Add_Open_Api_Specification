@@ -1,0 +1,56 @@
+  Four Step Process
+  1.  Add  "springdoc-Openapi-ui" Maven Dependency  .
+  2.  Add the configuration
+        2.1 : add the configuration in application.properties
+        2.2 : add the Bean by creating the @cofiguration  java class file.
+  3.  Add the annotations  to the controller classes
+  4.  Add the documents  for structure.
+
+
+ Step 1 :    Add  "springdoc-Openapi-ui" Maven Dependency  .
+                     <dependency>
+                        <groupId>org.springdoc</groupId>
+                        <artifactId>springdoc-openapi-ui</artifactId>
+                        <version>1.6.11</version>
+                    </dependency>
+            After adding this dependency you  got the swagger documentation in your  application to access that you
+            have to open the  with http://localhost:port/context-path/swagger-ui/index.html
+            But the issue is it will show all the document specification with default details like who is the user,
+            description, ... to update and change that you have to follow the step 2 .
+
+ Step 2 :  Add the Configuration
+           2.1 : To update the  default swagger-ui url  you have to give the  url in the application.properties file.
+
+            springdoc.swagger-ui.path=/openapi/swagger-ui.html
+            springdoc.api-docs.path=/openapi/v3/api-docs
+            springdoc.packagesToScan=com.asbnotebook.example.controller
+            springdoc.pathsToMatch=/**
+
+            all the  properties start with the "springdoc" and after that its functionality base name like
+
+            springdoc.swagger-ui.path= /openapi/swagger-ui.html
+                        use to define the  default path  to access the  swagger document
+            springdoc.api-docs.path=/openapi/v3/api-docs
+                        using the api-doc.path we will get the swagger documentation in the json format
+
+            springdoc.packagesToScan=com.eAuction.seller.controller
+                        using this packageToScan we defined what are the package are allowed to scan to generate the
+                        api specification document.
+
+            springdoc.pathsToMatch=/**
+                        using this pathsToMatch  filer the path of the api and only those api pass this match only there
+                        api document will get generate.
+
+           2.2 : add the Bean by creating the @cofiguration  java class file.
+            To define the  Information about the api document like what is the title ,description version .contact,
+            termOfService and licence you have to create @Bean  for the OpenAPI and return the  new OpenAPI() which have
+            Info object that contains all the above fields details.
+
+
+ Step 3 :  Add the  @ annotation to the  api method  we have multiple annotation  some of the common annotation are given
+           below -
+           1. @Tag : class level annotation
+           2. @Operation : use to customise the  name and description of the API
+           3. @ApiResponses : define all the possible apiResponse
+           4. @ApiResponse : define one response at at time
+           5.

@@ -6,15 +6,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "person")
+@Table(name = "person",
+        uniqueConstraints = @UniqueConstraint(columnNames={"email","phone","person_type"}))
 @Data
 @NoArgsConstructor
 public class Person {
     @Id
-    private Long personId;
-    @Column(name = "fName")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
+    @Column(name = "firstName")
     private String firstName;
-    @Column(name = "lName")
+    @Column(name = "lastName")
     private String lastName;
     @Column(name = "address")
     private String address;
@@ -26,7 +28,7 @@ public class Person {
     private String pin;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "email")
+    @Column(name = "email" ,unique = true)
     private String email;
     @Column(name = "personType")
     private PersonTypeEnum personType;
