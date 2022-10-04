@@ -13,14 +13,14 @@ create table person(
  email varchar(100),
  personType varchar(50),
  primary key(id)
-)
+);
 select * from person;
 
 create table product_category(
 id bigint not null,
 name varchar(100),
 primary key (id)
-)
+);
 select * from product_category;
 
 
@@ -38,6 +38,6 @@ isDeleted boolean,
 primary key (Id),
  foreign key(categoryId) REFERENCES product_category(id),
  foreign key(sellerId)REFERENCES person(id)
-)
+);
 
 select * from product;

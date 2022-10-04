@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
     @Autowired
@@ -104,5 +106,10 @@ public class ProductService {
     }
 
     public void showBidsForProduct(String productId) {
+    }
+
+    public Product getProductDetail(Long productId){
+        Optional<Product> productOptional = productRepository.findById(productId);
+        return productOptional.get();
     }
 }

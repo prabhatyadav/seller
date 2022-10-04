@@ -20,8 +20,8 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
-    public void showProductBid(@PathVariable("productId") String productId) {
-
+    public Product showProductBid(@PathVariable("productId") Long productId) {
+       return  productService.getProductDetail(productId);
     }
 
 

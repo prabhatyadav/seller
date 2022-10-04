@@ -34,7 +34,6 @@ public class Product {
     private LocalDateTime bidEndDate;
 
     @ManyToOne
-    @Column(name="seller")
     private Person seller;
 
     @Column(name="isDeleted")
