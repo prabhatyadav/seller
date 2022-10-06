@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionControllerAdvice {
+public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = InvalidProductDetailException.class)
     public ResponseEntity<Object> invalidProductDetailHandler(InvalidProductDetailException exception) {
         return new ResponseEntity<>("Product not found", HttpStatus.NOT_ACCEPTABLE);
@@ -20,7 +20,7 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value = InvalidPersonDetailException.class)
     public ResponseEntity<ErrorResponse> invalidPersonDetailHandler(InvalidPersonDetailException exception) {
-        return new ResponseEntity<(new ErrorResponse("Person Details incorrect found") + exception.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity(new ErrorResponse("Person Details incorrect found"+ exception.getMessage()), HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(value = PersonNotFoundException.class)
