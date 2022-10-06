@@ -1,6 +1,6 @@
 package com.eAuction.seller.exception;
 
-public class InvalidProductDetailException extends Exception {
+public class InvalidProductDetailException extends RuntimeException {
 
     public InvalidProductDetailException() {
         super();

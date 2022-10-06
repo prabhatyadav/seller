@@ -1,7 +1,7 @@
-package com.eAuction.seller.dto;
+package com.eAuction.seller.exception;
 
+public class InvalidPersonDetailException extends RuntimeException  {
 
-public class InvalidPersonDetailException extends RuntimeException {
     public InvalidPersonDetailException() {
         super();
     }
@@ -9,4 +9,6 @@ public class InvalidPersonDetailException extends RuntimeException {
     public InvalidPersonDetailException(String message) {
         super(message);
     }
+
+
 }

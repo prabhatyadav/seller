@@ -5,9 +5,11 @@ import com.eAuction.seller.model.PersonTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    Person findByEmailAndPhoneAndPersonType(String emailId, String phoneNumber, PersonTypeEnum personType);
+    Optional<Person> findByEmailAndPhoneAndPersonType(String emailId, String phoneNumber, PersonTypeEnum personType);
 
     Person findByEmail(String emailId);
 }
