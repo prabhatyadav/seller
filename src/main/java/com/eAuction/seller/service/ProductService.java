@@ -39,7 +39,7 @@ public class ProductService {
                 if (searchedPerson != null) {
                     // Product Category is present or not
                     if (productDto.getCategory() == null) {
-                        throw new InvalidProductDetailException();
+                        throw new InvalidProductDetailException("Product should  Be follow in One of provided category");
                         //Stage 2: Create the Category
                     }
                     // convert  the Dto to Model
@@ -47,9 +47,11 @@ public class ProductService {
                     savedProduct = productRepository.save(newProduct);
                 } else {
                     //Stage 2: create the seller account for the person. personService.Save()
-                    throw new InvalidPersonDetailException();
+                    throw new InvalidPersonDetailException("Seller Not Found with Provided email and phone number");
                 }
 
+            }else{
+                throw new InvalidProductDetailException("Only Valid Seller Allowed");
             }
 
         } else {

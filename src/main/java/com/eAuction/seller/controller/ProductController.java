@@ -2,6 +2,7 @@ package com.eAuction.seller.controller;
 
 import com.eAuction.seller.dto.ProductDto;
 import com.eAuction.seller.model.Product;
+import com.eAuction.seller.model.ProductCategory;
 import com.eAuction.seller.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,12 @@ public class ProductController {
 
     @RequestMapping(value = "/delete/{productId}", method = RequestMethod.POST)
     public void deleteProduct(@PathVariable("productId") String productId) {
+
+    }
+
+    @RequestMapping(value = "/add-product-category", method = RequestMethod.POST)
+    public void addProductCategory(@RequestBody ProductCategory productCategory) {
+
 
     }
 
