@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
 
-    List<Product> findByProductCategoryId(Long productCategoryId);
+    List<Product> findByCategoryId(Long productCategoryId);
 }

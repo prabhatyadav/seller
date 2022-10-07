@@ -3,6 +3,8 @@ package com.eAuction.seller.controller;
 import com.eAuction.seller.dto.ProductDto;
 import com.eAuction.seller.model.Product;
 import com.eAuction.seller.model.ProductCategory;
+import com.eAuction.seller.repository.ProductCategoryRepository;
+import com.eAuction.seller.service.ProductCategoryService;
 import com.eAuction.seller.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductCategoryService productCategoryService;
 
     @RequestMapping(value = "/add-product", method = RequestMethod.POST)
     public ResponseEntity<Object> addProduct(@RequestBody ProductDto productDto) throws Exception {
@@ -39,9 +44,8 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/add-product-category", method = RequestMethod.POST)
-    public void addProductCategory(@RequestBody ProductCategory productCategory) {
-
-
+    public ProductCategory addProductCategory(@RequestBody ProductCategory productCategory) {
+        return productCategoryService.addProductCategory(productCategory);
     }
 
 }
