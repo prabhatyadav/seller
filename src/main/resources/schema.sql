@@ -20,6 +20,8 @@ alter table person add unique person_unique_email_phone_person_type(email,phone,
 CREATE TABLE product (
     id BIGINT NOT NULL AUTO_INCREMENT,
     bid_end_date DATETIME,
+    bid_start_date DATETIME,
+    created_date DATETIME,
     detailed_description VARCHAR(255),
     is_deleted BIT,
     name VARCHAR(255),
@@ -29,10 +31,13 @@ CREATE TABLE product (
     seller_id BIGINT,
     PRIMARY KEY (id)
 )  ENGINE=INNODB;
+
 CREATE TABLE product_category (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255),
     PRIMARY KEY (id)
 )  ENGINE=INNODB;
+
  alter table product add constraint FK5cypb0k23bovo3rn1a5jqs6j4 foreign key (category_id) references product_category (id);
  alter table product add constraint FKjjapuxatfhwgjulb837kvhkoy foreign key (seller_id) references person (id);
+

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
     @Autowired
@@ -23,6 +25,11 @@ public class ProductController {
     @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
     public Product showProductBid(@PathVariable("productId") Long productId) {
        return  productService.getProductDetail(productId);
+    }
+
+    @RequestMapping(value = "/show-product/{productCategoryId} ", method = RequestMethod.GET)
+    public List<Product> showProductByProductCategory(@PathVariable("productCategoryId") Long productCategoryId) {
+        return  productService.getAllProductDetail(productCategoryId);
     }
 
 

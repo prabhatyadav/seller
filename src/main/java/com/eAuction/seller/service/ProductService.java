@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -113,5 +114,10 @@ public class ProductService {
     public Product getProductDetail(Long productId){
         Optional<Product> productOptional = productRepository.findById(productId);
         return productOptional.get();
+    }
+
+    public List<Product> getAllProductDetail(Long productCategoryId){
+        List<Product> productList = productRepository.findByProductCategoryId(productCategoryId);
+        return productList;
     }
 }

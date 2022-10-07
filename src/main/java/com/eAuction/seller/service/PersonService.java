@@ -27,7 +27,6 @@ public class PersonService {
             return foundResultPerson.get();
         } else {
             throw new PersonNotFoundException("No Result found");
-
         }
     }
 

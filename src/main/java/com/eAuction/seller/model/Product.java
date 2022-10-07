@@ -33,6 +33,12 @@ public class Product {
     @Column(name="bidEndDate")
     private LocalDateTime bidEndDate;
 
+    @Column(name="bidStartDate")
+    private LocalDateTime bidStartDate;
+
+    @Column(name="createdDate")
+    private LocalDateTime createdDate;
+
     @ManyToOne
     private Person seller;
 
