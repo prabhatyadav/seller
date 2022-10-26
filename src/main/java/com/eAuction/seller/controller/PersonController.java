@@ -14,6 +14,7 @@ public class PersonController {
     @Autowired
     public PersonService personService;
 
+    /*Not a requirement*/
     @RequestMapping(method = RequestMethod.GET, value = "/findPerson")
     public Person findPerson(@RequestParam("personType") PersonTypeEnum personTypeEnum,
                              @RequestParam("email") String email,
@@ -23,7 +24,7 @@ public class PersonController {
         return servicePerson;
     }
 
-
+    /*Not a requirement*/
     @RequestMapping(method = RequestMethod.POST, value = "/createNewUser")
     public Person createNewUser(@RequestBody Person person)  {
         return personService.createNewUser(person);

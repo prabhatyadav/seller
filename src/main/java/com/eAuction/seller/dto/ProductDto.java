@@ -20,6 +20,5 @@ public class ProductDto {
     private String personName;
     private String personEmailId;
     private String PhoneNumber;
-    private Boolean isDeleted;
     private PersonTypeEnum personType;
 }

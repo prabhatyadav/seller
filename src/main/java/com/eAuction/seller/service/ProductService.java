@@ -51,7 +51,7 @@ public class ProductService {
                     throw new InvalidPersonDetailException("Seller Not Found with Provided email and phone number");
                 }
 
-            }else{
+            } else {
                 throw new InvalidProductDetailException("Only Valid Seller Allowed");
             }
 
@@ -105,18 +105,27 @@ public class ProductService {
         return ValidationResult.builder().isValidate(true).build();
     }
 
-    public void deleteProduct(String productId) {
+    public Product deleteProduct(long productId) {
+        Product deletedProduct = null;
+        Product foundProduct = this.getProductDetail(productId);
+        if (foundProduct != null) {
+            foundProduct.setIsDeleted(true);
+            deletedProduct = productRepository.save(foundProduct);
+        } else {
+            throw new InvalidProductDetailException("Product with ProductId :" + productId + "Not Found");
+        }
+        return deletedProduct;
     }
 
     public void showBidsForProduct(String productId) {
     }
 
-    public Product getProductDetail(Long productId){
+    public Product getProductDetail(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
         return productOptional.get();
     }
 
-    public List<Product> getAllProductDetail(Long productCategoryId){
+    public List<Product> getAllProductDetail(Long productCategoryId) {
         List<Product> productList = productRepository.findByCategoryId(productCategoryId);
         return productList;
     }

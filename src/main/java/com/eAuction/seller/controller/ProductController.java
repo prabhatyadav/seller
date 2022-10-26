@@ -1,6 +1,7 @@
 package com.eAuction.seller.controller;
 
 import com.eAuction.seller.dto.ProductDto;
+import com.eAuction.seller.exception.InvalidProductDetailException;
 import com.eAuction.seller.model.Product;
 import com.eAuction.seller.model.ProductCategory;
 import com.eAuction.seller.repository.ProductCategoryRepository;
@@ -29,17 +30,24 @@ public class ProductController {
 
     @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
     public Product showProductBid(@PathVariable("productId") Long productId) {
-       return  productService.getProductDetail(productId);
+        return productService.getProductDetail(productId);
     }
 
+    /*Not a requirement*/
     @RequestMapping(value = "/show-product/{productCategoryId} ", method = RequestMethod.GET)
     public List<Product> showProductByProductCategory(@PathVariable("productCategoryId") Long productCategoryId) {
-        return  productService.getAllProductDetail(productCategoryId);
+        return productService.getAllProductDetail(productCategoryId);
     }
 
 
     @RequestMapping(value = "/delete/{productId}", method = RequestMethod.POST)
-    public void deleteProduct(@PathVariable("productId") String productId) {
+    public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long productId) {
+        Product deletedProduct = productService.deleteProduct(productId);
+        if (deletedProduct.getIsDeleted()) {
+            return new ResponseEntity<String>("Deleted ProductId : " + productId, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>("Not Deleted ProductId : " + productId, HttpStatus.NOT_MODIFIED);
+        }
 
     }
 
