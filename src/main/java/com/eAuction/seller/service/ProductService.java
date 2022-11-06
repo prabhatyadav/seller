@@ -59,7 +59,7 @@ public class ProductService {
             }
 
         } else {
-            new InvalidProductDetailException();
+           throw new InvalidProductDetailException("Invalid data");
         }
         return savedProduct;
     }
@@ -67,11 +67,12 @@ public class ProductService {
     private boolean validate(ProductDto productDto) {
         // Validations:
         //  1. Product Name is not null, min 5 and max 30 characters.
-        if (productDto == null ||
-                productDto.getName() == null ||
+        if (productDto == null){
+            throw new InvalidProductDetailException("Product DTO can not be Null");
+        }else if(  productDto.getName() == null ||
                 productDto.getName().length() < ProductConstant.MIN_ALLOWED ||
                 productDto.getName().length() > ProductConstant.MAX_ALLOWED) {
-            return false;
+            throw new InvalidProductDetailException("Name should be not null, min 5 and max 30 characters");
         }
         return true;
     }
