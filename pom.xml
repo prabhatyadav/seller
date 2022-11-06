@@ -63,6 +63,7 @@
     </dependencies>
 
     <build>
+        <finalName>e-auction-backend-seller</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

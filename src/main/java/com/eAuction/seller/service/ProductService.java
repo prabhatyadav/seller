@@ -122,7 +122,12 @@ public class ProductService {
 
     public Product getProductDetail(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
-        return productOptional.get();
+        if(productOptional.isPresent()){
+            return productOptional.get();
+        }else{
+            return null;
+        }
+
     }
 
     public List<Product> getAllProductDetail(Long productCategoryId) {

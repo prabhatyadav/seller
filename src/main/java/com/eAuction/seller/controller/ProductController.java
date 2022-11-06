@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/e-auction/api/v1/seller")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -26,6 +27,12 @@ public class ProductController {
     public ResponseEntity<Object> addProduct(@RequestBody ProductDto productDto) throws Exception {
         Product newProduct = productService.addProduct(productDto);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/product/{productId}", method = RequestMethod.GET)
+    public ResponseEntity<Product> getProduct(@PathVariable long productId) throws Exception {
+        Product foundProduct = productService.getProductDetail(productId);
+        return new ResponseEntity<>(foundProduct, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
