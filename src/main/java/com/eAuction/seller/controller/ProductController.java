@@ -10,6 +10,7 @@ import com.eAuction.seller.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +39,12 @@ public class ProductController {
     @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
     public Product showProductBid(@PathVariable("productId") Long productId) {
         return productService.getProductDetail(productId);
+    }
+
+    @RequestMapping(value = "/show-product ", method = RequestMethod.GET)
+    public List<Product> showProduct(@Nullable @RequestParam("offset")int offset ,
+                                                      @Nullable @RequestParam("limit")int limit) {
+        return productService.getAllProductDetail(offset,limit);
     }
 
     /*Not a requirement*/

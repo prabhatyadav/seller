@@ -11,8 +11,11 @@ import com.eAuction.seller.model.ValidationResult;
 import com.eAuction.seller.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +133,10 @@ public class ProductService {
 
     }
 
+    public List<Product> getAllProductDetail(int offset , int limit) {
+        List<Product> productList = productRepository.findAll();
+        return productList;
+    }
     public List<Product> getAllProductDetail(Long productCategoryId) {
         List<Product> productList = productRepository.findByCategoryId(productCategoryId);
         return productList;
