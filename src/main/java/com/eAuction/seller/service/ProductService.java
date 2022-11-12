@@ -2,8 +2,10 @@ package com.eAuction.seller.service;
 
 import com.eAuction.seller.constant.ProductConstant;
 import com.eAuction.seller.dto.InvalidPersonDetailException;
+import com.eAuction.seller.dto.ProductBidDto;
 import com.eAuction.seller.dto.ProductDto;
 import com.eAuction.seller.exception.InvalidProductDetailException;
+import com.eAuction.seller.feign.ProductBidFeignClient;
 import com.eAuction.seller.model.Person;
 import com.eAuction.seller.model.PersonTypeEnum;
 import com.eAuction.seller.model.Product;
@@ -27,6 +29,9 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductBidFeignClient productBidFeignClient;
+
     ModelMapper modelMapper = new ModelMapper();
 
     public Product addProduct(ProductDto productDto) throws Exception {
@@ -48,6 +53,9 @@ public class ProductService {
                     }
                     // convert  the Dto to Model
                     Product newProduct = modelMapper.map(productDto, Product.class);
+                    newProduct.setIsDeleted(false);
+                    newProduct.setSeller(searchedPerson);
+
                     savedProduct = productRepository.save(newProduct);
                 } else {
                     //Stage 2: create the seller account for the person. personService.Save()
@@ -59,7 +67,7 @@ public class ProductService {
             }
 
         } else {
-           throw new InvalidProductDetailException("Invalid data");
+            throw new InvalidProductDetailException("Invalid data");
         }
         return savedProduct;
     }
@@ -67,9 +75,9 @@ public class ProductService {
     private boolean validate(ProductDto productDto) {
         // Validations:
         //  1. Product Name is not null, min 5 and max 30 characters.
-        if (productDto == null){
+        if (productDto == null) {
             throw new InvalidProductDetailException("Product DTO can not be Null");
-        }else if(  productDto.getName() == null ||
+        } else if (productDto.getName() == null ||
                 productDto.getName().length() < ProductConstant.MIN_ALLOWED ||
                 productDto.getName().length() > ProductConstant.MAX_ALLOWED) {
             throw new InvalidProductDetailException("Name should be not null, min 5 and max 30 characters");
@@ -121,23 +129,32 @@ public class ProductService {
         return deletedProduct;
     }
 
-    public void showBidsForProduct(String productId) {
+    public List<ProductBidDto> showBidsForProduct(Long productId) {
+        List<ProductBidDto> result = null;
+        if (productId == null || productId < 0) {
+            throw new InvalidProductDetailException("Product id is not correct !!");
+        } else {
+            result = productBidFeignClient.getAllBidsForProductId(productId);
+        }
+
+        return result;
     }
 
     public Product getProductDetail(Long productId) {
         Optional<Product> productOptional = productRepository.findById(productId);
-        if(productOptional.isPresent()){
+        if (productOptional.isPresent()) {
             return productOptional.get();
-        }else{
+        } else {
             return null;
         }
 
     }
 
-    public List<Product> getAllProductDetail(int offset , int limit) {
+    public List<Product> getAllProductDetail(int offset, int limit) {
         List<Product> productList = productRepository.findAll();
         return productList;
     }
+
     public List<Product> getAllProductDetail(Long productCategoryId) {
         List<Product> productList = productRepository.findByCategoryId(productCategoryId);
         return productList;

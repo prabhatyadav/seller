@@ -1,5 +1,6 @@
 package com.eAuction.seller.controller;
 
+import com.eAuction.seller.dto.ProductBidDto;
 import com.eAuction.seller.dto.ProductDto;
 import com.eAuction.seller.exception.InvalidProductDetailException;
 import com.eAuction.seller.model.Product;
@@ -8,12 +9,18 @@ import com.eAuction.seller.repository.ProductCategoryRepository;
 import com.eAuction.seller.service.ProductCategoryService;
 import com.eAuction.seller.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/e-auction/api/v1/seller")
@@ -27,40 +34,57 @@ public class ProductController {
     @RequestMapping(value = "/add-product", method = RequestMethod.POST)
     public ResponseEntity<Object> addProduct(@RequestBody ProductDto productDto) throws Exception {
         Product newProduct = productService.addProduct(productDto);
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.add("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>(newProduct, respHeaders, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/product/{productId}", method = RequestMethod.GET)
     public ResponseEntity<Product> getProduct(@PathVariable long productId) throws Exception {
         Product foundProduct = productService.getProductDetail(productId);
-        return new ResponseEntity<>(foundProduct, HttpStatus.OK);
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.add("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>(foundProduct, respHeaders, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/show-bids/{productId} ", method = RequestMethod.GET)
-    public Product showProductBid(@PathVariable("productId") Long productId) {
-        return productService.getProductDetail(productId);
+    @RequestMapping(value = "/show-bids/{productId}", method = RequestMethod.GET)
+    public ResponseEntity<List<ProductBidDto>> showProductBid(@PathVariable("productId") Long productId) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+
+        List<ProductBidDto> bidList = productService.showBidsForProduct(productId);
+        if(bidList==null ||bidList.size()==0){
+            return ResponseEntity.notFound().headers(headers).build();
+        }
+        return ResponseEntity.ok().headers(headers).body(bidList);
     }
 
-    @RequestMapping(value = "/show-product ", method = RequestMethod.GET)
-    public List<Product> showProduct(@Nullable @RequestParam("offset")int offset ,
-                                                      @Nullable @RequestParam("limit")int limit) {
-        return productService.getAllProductDetail(offset,limit);
+    @RequestMapping(value = "/show-product", method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> showProduct(@Nullable @RequestParam("offset") int offset,
+                                                     @Nullable @RequestParam("limit") int limit) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+
+        return ResponseEntity.ok().headers(headers).body(productService.getAllProductDetail(offset, limit));
     }
 
     /*Not a requirement*/
-    @RequestMapping(value = "/show-product/{productCategoryId} ", method = RequestMethod.GET)
+   /* @RequestMapping(value = "/show-product/{productCategoryId} ", method = RequestMethod.GET)
     public List<Product> showProductByProductCategory(@PathVariable("productCategoryId") Long productCategoryId) {
         return productService.getAllProductDetail(productCategoryId);
     }
-
+*/
 
     @RequestMapping(value = "/delete/{productId}", method = RequestMethod.POST)
     public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long productId) {
         Product deletedProduct = productService.deleteProduct(productId);
+
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.add("Access-Control-Allow-Origin", "*");
         if (deletedProduct.getIsDeleted()) {
-            return new ResponseEntity<String>("Deleted ProductId : " + productId, HttpStatus.OK);
+            return new ResponseEntity<String>("Deleted ProductId : " + productId, respHeaders, HttpStatus.OK);
         } else {
-            return new ResponseEntity<String>("Not Deleted ProductId : " + productId, HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<String>("Not Deleted ProductId : " + productId, respHeaders, HttpStatus.NOT_MODIFIED);
         }
 
     }
