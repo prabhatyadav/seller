@@ -17,8 +17,9 @@ public class ProductDto {
     private LocalDateTime bidEndDate;
     private LocalDateTime bidStartDate;
     private LocalDateTime createdDate;
-    private String personName;
-    private String personEmailId;
-    private String PhoneNumber;
+    private String personFirstName;
+    private String personLastName;
+    private String personEmail;
+    private String personPhone;
     private PersonTypeEnum personType;
 }

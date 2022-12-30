@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +42,11 @@ public class ProductService {
             //Product is already there or not ? A Seller can not put same product for multiple time.
 
             //Person who is trying to add the Product is present seller or not.
-            if (productDto.getPersonEmailId() != null &&
-                    productDto.getPhoneNumber() != null &&
+            if (productDto.getPersonEmail() != null &&
+                    productDto.getPersonPhone() != null &&
                     productDto.getPersonType() == PersonTypeEnum.SELLER) {
                 Person searchedPerson = personService
-                        .findPerson(productDto.getPersonEmailId(), productDto.getPhoneNumber(), productDto.getPersonType());
+                        .findPerson(productDto.getPersonEmail(), productDto.getPersonPhone(), productDto.getPersonType());
                 if (searchedPerson != null) {
                     // Product Category is present or not
                     if (productDto.getCategory() == null) {
@@ -54,6 +56,7 @@ public class ProductService {
                     // convert  the Dto to Model
                     Product newProduct = modelMapper.map(productDto, Product.class);
                     newProduct.setIsDeleted(false);
+                    newProduct.setCreatedDate(LocalDateTime.now());
                     newProduct.setSeller(searchedPerson);
 
                     savedProduct = productRepository.save(newProduct);
@@ -73,19 +76,40 @@ public class ProductService {
     }
 
     private boolean validate(ProductDto productDto) {
-        // Validations:
+        ValidationResult validationResultForProduct = validateProductDto(productDto);
+        if (!validationResultForProduct.isValidate()) {
+            throw new InvalidProductDetailException(validationResultForProduct.getFieldName() + " : " + validationResultForProduct.getErrorMessage());
+        }
+        return validationResultForProduct.isValidate();
+    }
+
+    private ValidationResult validateProductDto(ProductDto productDto) {
         //  1. Product Name is not null, min 5 and max 30 characters.
         if (productDto == null) {
-            throw new InvalidProductDetailException("Product DTO can not be Null");
+            return ValidationResult.builder().isValidate(false).fieldName("Product ")
+                    .errorMessage("Product should be not null").build();
         } else if (productDto.getName() == null ||
                 productDto.getName().length() < ProductConstant.MIN_ALLOWED ||
                 productDto.getName().length() > ProductConstant.MAX_ALLOWED) {
-            throw new InvalidProductDetailException("Name should be not null, min 5 and max 30 characters");
+            return ValidationResult.builder().isValidate(false).fieldName("Product Name")
+                    .errorMessage("Name should be not null, min 5 and max 30 characters").build();
+        }// 2. Bid start date should not null or past date from now
+        if (productDto.getBidStartDate() == null || productDto.getBidStartDate().isBefore(LocalDateTime.now())) {
+            return ValidationResult.builder().isValidate(false).fieldName("BidStartDate")
+                    .errorMessage("Bid Start Date should be not null or past date").build();
+        }// 3. Bid End date should not null or past date from now
+        if (productDto.getBidEndDate() == null || productDto.getBidEndDate().isBefore(LocalDateTime.now())) {
+            return ValidationResult.builder().isValidate(false).fieldName("BidEndDate")
+                    .errorMessage("Bid End Date should be not null or past date").build();
         }
-        return true;
+        Person person = modelMapper.map(productDto, Person.class);
+        ValidationResult validatePersonResult = this.validatePerson(person);
+        return validatePersonResult;
+
     }
 
-    private ValidationResult validate(Person person) {
+
+    private ValidationResult validatePerson(Person person) {
         // Validations:
         if (person == null) {
             return ValidationResult.builder().isValidate(false).fieldName("Person")
@@ -97,7 +121,7 @@ public class ProductService {
             return ValidationResult.builder().isValidate(false).fieldName("first name")
                     .errorMessage("min 5 and max 30 characters").build();
         }//  3. lastName is not null, min 3 and max 25 characters.
-        else if (person.getLastName().length() < ProductConstant.L_NAME_MAX_ALLOWED
+        else if (person.getLastName().length() < ProductConstant.L_NAME_MIN_ALLOWED
                 || person.getLastName().length() > ProductConstant.L_NAME_MAX_ALLOWED) {
             return ValidationResult.builder().isValidate(false).fieldName("last name")
                     .errorMessage("min 5 and max 30 characters").build();
@@ -124,7 +148,7 @@ public class ProductService {
             foundProduct.setIsDeleted(true);
             deletedProduct = productRepository.save(foundProduct);
         } else {
-            throw new InvalidProductDetailException("Product with ProductId :" + productId + "Not Found");
+            throw new InvalidProductDetailException("Product with ProductId :" + productId + " Not Found");
         }
         return deletedProduct;
     }

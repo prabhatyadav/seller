@@ -2,10 +2,8 @@ package com.eAuction.seller.controller;
 
 import com.eAuction.seller.dto.ProductBidDto;
 import com.eAuction.seller.dto.ProductDto;
-import com.eAuction.seller.exception.InvalidProductDetailException;
 import com.eAuction.seller.model.Product;
 import com.eAuction.seller.model.ProductCategory;
-import com.eAuction.seller.repository.ProductCategoryRepository;
 import com.eAuction.seller.service.ProductCategoryService;
 import com.eAuction.seller.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +11,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.MultiValueMapAdapter;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/e-auction/api/v1/seller")
